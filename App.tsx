@@ -7,8 +7,9 @@ import { CompetitionDetail } from './components/CompetitionDetail';
 import { ChallengePage } from './components/ChallengePage';
 import { LeaderboardView } from './components/LeaderboardView';
 import { CharacterProfile } from './components/CharacterProfile';
+import { AdminUserManagement } from './components/AdminUserManagement';
 import { Footer } from './components/Footer';
-import { Layout, Trophy, User as UserIcon, Swords, LogOut, Compass, Menu, X } from 'lucide-react';
+import { Layout, Trophy, User as UserIcon, Swords, LogOut, Compass, Menu, X, Users } from 'lucide-react';
 
 // Simple Layout Shell
 const SidebarItem = ({ icon: Icon, label, active, onClick }: any) => (
@@ -24,7 +25,7 @@ const SidebarItem = ({ icon: Icon, label, active, onClick }: any) => (
 const App: React.FC = () => {
   // --- State Management ---
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [view, setView] = useState<'home' | 'competition' | 'challenge' | 'leaderboard' | 'profile'>('home');
+  const [view, setView] = useState<'home' | 'competition' | 'challenge' | 'leaderboard' | 'profile' | 'admin-users'>('home');
   const [selectedCompetitionId, setSelectedCompetitionId] = useState<string | null>(null);
   const [selectedChallengeId, setSelectedChallengeId] = useState<string | null>(null);
   
@@ -32,6 +33,7 @@ const App: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   // Data State
+  const [users, setUsers] = useState<User[]>(MOCK_USERS);
   const [competitions, setCompetitions] = useState<Competition[]>(MOCK_COMPETITIONS);
   const [challenges, setChallenges] = useState<Challenge[]>(MOCK_CHALLENGES);
   const [submissions, setSubmissions] = useState<Submission[]>(MOCK_SUBMISSIONS);
@@ -45,7 +47,7 @@ const App: React.FC = () => {
   // --- Handlers ---
 
   const handleLogin = (username: string, pass: string) => {
-    const user = MOCK_USERS.find(u => u.username.toLowerCase() === username.toLowerCase());
+    const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
     if (user) {
         setCurrentUser(user);
         setView('home'); 
@@ -148,6 +150,28 @@ const App: React.FC = () => {
     }
   };
 
+  // User Management Handlers
+  const handleCreateUser = (username: string, password: string) => {
+    const newUser: User = {
+      id: `user-${Date.now()}`,
+      username: username,
+      password: password,
+      role: 'player',
+      avatar: `https://api.dicebear.com/7.x/adventurer/svg?seed=${username}&backgroundColor=${['b6e3f4', 'c0aede', 'ffdfbf', 'ffd5dc', 'd1d4f9'][Math.floor(Math.random() * 5)]}`,
+      level: 1,
+      xp: 0
+    };
+    setUsers(prev => [...prev, newUser]);
+  };
+
+  const handleDeleteUser = (userId: string) => {
+    setUsers(prev => prev.filter(u => u.id !== userId));
+  };
+
+  const handleEditUser = (userId: string, newUsername: string) => {
+    setUsers(prev => prev.map(u => u.id === userId ? { ...u, username: newUsername } : u));
+  };
+
   if (!currentUser) {
     return <LoginView onLogin={handleLogin} error="" />;
   }
@@ -192,6 +216,7 @@ const App: React.FC = () => {
         <button 
             onClick={() => setIsMobileMenuOpen(false)}
             className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white md:hidden"
+            aria-label="Close Menu"
         >
             <X className="w-6 h-6" />
         </button>
@@ -233,6 +258,15 @@ const App: React.FC = () => {
                     active={view === 'profile'} 
                     onClick={() => handleNavigate('profile')} 
                 />
+                
+                {currentUser.role === 'leader' && (
+                    <SidebarItem 
+                        icon={Users} 
+                        label="Manage Players" 
+                        active={view === 'admin-users'} 
+                        onClick={() => handleNavigate('admin-users')} 
+                    />
+                )}
             </nav>
         </div>
 
@@ -246,7 +280,7 @@ const App: React.FC = () => {
                         <div className="text-xs text-slate-500 capitalize">{currentUser.role}</div>
                     </div>
                 </div>
-                <button onClick={handleLogout} className="text-slate-500 hover:text-red-400 transition-colors p-2">
+                <button onClick={handleLogout} className="text-slate-500 hover:text-red-400 transition-colors p-2" aria-label="Log Out">
                     <LogOut className="w-4 h-4" />
                 </button>
             </div>
@@ -305,9 +339,18 @@ const App: React.FC = () => {
                 />
             )}
 
+            {view === 'admin-users' && currentUser.role === 'leader' && (
+                <AdminUserManagement 
+                    users={users}
+                    onCreateUser={handleCreateUser}
+                    onDeleteUser={handleDeleteUser}
+                    onEditUser={handleEditUser}
+                />
+            )}
+
             {view === 'leaderboard' && (
                 <LeaderboardView 
-                    users={MOCK_USERS}
+                    users={users}
                     submissions={submissions}
                     ratings={ratings}
                 />

@@ -57,6 +57,7 @@ export const CharacterProfile: React.FC<CharacterProfileProps> = ({
                    <button 
                     onClick={() => setIsEditingAvatar(false)}
                     className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+                    title="Close"
                    >
                        <X className="w-6 h-6" />
                    </button>
@@ -70,6 +71,7 @@ export const CharacterProfile: React.FC<CharacterProfileProps> = ({
                             key={idx}
                             onClick={() => handleAvatarSelect(url)}
                             className={`relative group rounded-full overflow-hidden border-2 transition-all hover:scale-110 ${user.avatar === url ? 'border-indigo-500 ring-2 ring-indigo-500 ring-offset-2 ring-offset-slate-900' : 'border-slate-700 hover:border-slate-400'}`}
+                            title="Select avatar"
                            >
                                <img src={url} alt="Avatar Option" className="w-full h-full bg-slate-800" />
                                {user.avatar === url && (
@@ -100,6 +102,7 @@ export const CharacterProfile: React.FC<CharacterProfileProps> = ({
                            <button 
                             onClick={() => setIsEditingAvatar(true)}
                             className="absolute bottom-4 right-4 z-20 bg-slate-900 text-white p-2 rounded-full border border-slate-700 shadow-lg hover:bg-indigo-600 hover:border-indigo-500 transition-all hover:scale-110 group-hover:opacity-100"
+                            title="Edit avatar"
                            >
                                <Edit2 className="w-5 h-5" />
                            </button>
