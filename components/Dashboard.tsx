@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Challenge, Submission, User, ChallengeStatus } from '../types';
 import { Card } from './ui/Card';
 import { Calendar, Video, Upload, Wand2, Loader2, CheckCircle2, Trash2, Plus, ShieldAlert, Clock, Edit } from 'lucide-react';
-import { getAICoachFeedback } from '../services/geminiService';
 
 interface DashboardProps {
   activeChallenge: Challenge;
@@ -31,10 +30,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [url, setUrl] = useState('');
   const [description, setDescription] = useState('');
   
-  // AI Coach State
-  const [aiFeedback, setAiFeedback] = useState<string | null>(null);
-  const [isLoadingAi, setIsLoadingAi] = useState(false);
-
   // Admin State
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -59,13 +54,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
     }, 800);
   };
 
-  const fetchAiFeedback = async () => {
-    if (!description) return;
-    setIsLoadingAi(true);
-    const feedback = await getAICoachFeedback(activeChallenge.title, activeChallenge.description, description);
-    setAiFeedback(feedback);
-    setIsLoadingAi(false);
-  };
 
   const startEdit = (challenge: Challenge) => {
     setNewChallenge({
@@ -340,13 +328,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         >
                             {isUploading ? 'Uploading...' : 'Submit Entry'} <Upload className="ml-2 w-4 h-4" />
                         </button>
-                        <button
-                            onClick={fetchAiFeedback}
-                            disabled={!description || isLoadingAi}
-                            className="flex items-center justify-center py-2.5 px-4 border border-indigo-500/30 rounded-md shadow-sm text-sm font-medium text-indigo-300 bg-indigo-900/20 hover:bg-indigo-900/40"
-                        >
-                            {isLoadingAi ? <Loader2 className="animate-spin w-4 h-4" /> : <Wand2 className="w-4 h-4" />}
-                        </button>
+                        
                     </div>
                 </div>
             </Card>
@@ -367,13 +349,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                     </div>
                 </div>
                 
-                {aiFeedback ? (
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-indigo-500/30">
-                        <p className="text-sm text-slate-200 leading-relaxed italic">"{aiFeedback}"</p>
-                    </div>
-                ) : (
-                    <p className="text-sm text-slate-400">Enter a description of your video concept in the submission form and click the wand icon to get instant feedback on your idea!</p>
-                )}
+                
             </div>
          </Card>
 

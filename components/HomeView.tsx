@@ -165,12 +165,14 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         <input 
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mt-1 focus:border-indigo-500 outline-none"
                             value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})}
+                            title="Edit title"
                         />
                     </div>
                     <div>
                         <label className="text-xs text-slate-400 uppercase font-bold">Status</label>
                         <select 
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mt-1 focus:border-indigo-500 outline-none"
+                            title="Select status"
                             value={formData.status} onChange={e => setFormData({...formData, status: e.target.value as any})}
                         >
                             <option value="upcoming">Upcoming</option>
@@ -182,6 +184,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         <label className="text-xs text-slate-400 uppercase font-bold">Prize Pool</label>
                         <input 
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mt-1 focus:border-indigo-500 outline-none"
+                            title="Edit prize pool"
                             value={formData.prize_pool} onChange={e => setFormData({...formData, prize_pool: e.target.value})}
                         />
                     </div>
@@ -190,6 +193,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         <input 
                             type="date"
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mt-1 focus:border-indigo-500 outline-none"
+                            title="Edit start date"
                             value={formData.start_date} onChange={e => setFormData({...formData, start_date: e.target.value})}
                         />
                     </div>
@@ -198,6 +202,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         <input 
                             type="date"
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mt-1 focus:border-indigo-500 outline-none"
+                            title="Edit end date"
                             value={formData.end_date} onChange={e => setFormData({...formData, end_date: e.target.value})}
                         />
                     </div>
@@ -205,6 +210,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
                         <label className="text-xs text-slate-400 uppercase font-bold">Description</label>
                         <textarea 
                             className="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mt-1 focus:border-indigo-500 outline-none"
+                            title="Edit description"
                             rows={3}
                             value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                         />
@@ -283,13 +289,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
                                 {/* Admin Actions */}
                                 {isAdmin && (
                                     <div className="flex gap-2">
-                                        <button 
+                                        <button
+                                            title="Edit Competition" 
                                             onClick={(e) => handleOpenEdit(e, comp)}
                                             className="p-2 text-blue-400 hover:bg-blue-900/50 rounded-lg transition-colors bg-black/50 backdrop-blur-md"
                                         >
                                             <Edit className="w-4 h-4" />
                                         </button>
                                         <button 
+                                            title="Delete Competition"
                                             onClick={(e) => handleDelete(e, comp.id)}
                                             className="p-2 text-red-400 hover:bg-red-900/50 rounded-lg transition-colors bg-black/50 backdrop-blur-md"
                                         >
