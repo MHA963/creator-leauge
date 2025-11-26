@@ -259,6 +259,7 @@ export const ChallengePage: React.FC<ChallengePageProps> = ({
                                                 key={star}
                                                 onClick={() => onRateEntry(sub.id, star)}
                                                 className="p-1 transition-transform hover:scale-110 text-slate-700 hover:text-yellow-400"
+                                                title={`Rate ${star} Star${star > 1 ? 's' : ''}`}
                                             >
                                                 <Star className="w-6 h-6 fill-current" />
                                             </button>
