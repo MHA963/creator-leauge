@@ -159,7 +159,16 @@ export const createAppHandlers = (props: HandlersProps) => {
   };
 
   const handleDeleteUser = (userId: string) => {
-    setUsers(prev => prev.filter(u => u.id !== userId));
+    if (window.confirm("Are you sure you want to delete this user? This will remove all their submissions and ratings.")) {
+      // Delete user
+      setUsers(prev => prev.filter(u => u.id !== userId));
+      
+      // Delete all submissions by this user
+      setSubmissions(prev => prev.filter(s => s.user_id !== userId));
+      
+      // Delete all ratings made by this user
+      setRatings(prev => prev.filter(r => r.rated_by_user_id !== userId));
+    }
   };
 
   const handleEditUser = (userId: string, newUsername: string) => {

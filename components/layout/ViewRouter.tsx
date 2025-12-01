@@ -7,6 +7,7 @@ import { ChallengePage } from '../ChallengePage';
 import { LeaderboardView } from '../LeaderboardView';
 import { CharacterProfile } from '../CharacterProfile';
 import { AdminUserManagement } from '../AdminUserManagement';
+import { SuperAdminDashboard } from '../SuperAdminDashboard';
 
 interface ViewRouterProps {
   currentView: ViewType;
@@ -165,6 +166,33 @@ export const ViewRouter: React.FC<ViewRouterProps> = ({
           onCreateUser={onCreateUser}
           onDeleteUser={onDeleteUser}
           onEditUser={onEditUser}
+        />
+      );
+
+    case 'super-admin':
+      if (currentUser?.role !== 'super-admin') {
+        // Redirect non-super-admin users away from this view
+        return (
+          <HomeView 
+            user={currentUser!} 
+            competitions={competitions} 
+            activeChallenges={challenges.filter(c => c.status === 'active')}
+            onSelectCompetition={(id) => onNavigate('competition', id)} 
+            onCreateCompetition={onCreateCompetition}
+            onEditCompetition={onEditCompetition}
+            onDeleteCompetition={onDeleteCompetition}
+          />
+        );
+      }
+      return (
+        <SuperAdminDashboard
+          users={users}
+          competitions={competitions}
+          submissions={submissions}
+          ratings={ratings}
+          currentUser={currentUser!}
+          onDeleteUser={onDeleteUser}
+          onLogout={() => onNavigate('home')}
         />
       );
 

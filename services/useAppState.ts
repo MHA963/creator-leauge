@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { User, Competition, Challenge, Submission, Rating, MOCK_USERS, MOCK_COMPETITIONS, MOCK_CHALLENGES, MOCK_SUBMISSIONS, MOCK_RATINGS } from '../types';
 
-export type ViewType = 'home' | 'competition' | 'challenge' | 'leaderboard' | 'profile' | 'admin-users';
+export type ViewType = 'home' | 'competition' | 'challenge' | 'leaderboard' | 'profile' | 'admin-users' | 'super-admin';
 
 interface AppState {
   currentUser: User | null;

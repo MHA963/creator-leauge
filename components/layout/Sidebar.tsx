@@ -18,11 +18,13 @@ interface SidebarItemProps {
   isActive: boolean;
   onClick: () => void;
   adminOnly?: boolean;
+  superAdminOnly?: boolean;
   currentUserRole?: string;
 }
 
-const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, isActive, onClick, adminOnly = false, currentUserRole }) => {
-  if (adminOnly && currentUserRole !== 'leader') return null;
+const SidebarItem: React.FC<SidebarItemProps> = ({ icon, label, isActive, onClick, adminOnly = false, superAdminOnly = false, currentUserRole }) => {
+  if (adminOnly && currentUserRole !== 'leader' && currentUserRole !== 'super-admin') return null;
+  if (superAdminOnly && currentUserRole !== 'super-admin') return null;
 
   return (
     <button
@@ -68,47 +70,62 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Navigation */}
       <nav className="space-y-2 flex-1">
-        <SidebarItem
-          icon={<Home size={20} />}
-          label="Home"
-          isActive={currentView === 'home'}
-          onClick={() => onNavigate('home')}
-          currentUserRole={currentUser?.role}
-        />
-        <SidebarItem
-          icon={<Trophy size={20} />}
-          label="Competitions"
-          isActive={currentView === 'competition'}
-          onClick={() => onNavigate('competition')}
-          currentUserRole={currentUser?.role}
-        />
-        <SidebarItem
-          icon={<Target size={20} />}
-          label="Challenges"
-          isActive={currentView === 'challenge'}
-          onClick={() => onNavigate('challenge')}
-          currentUserRole={currentUser?.role}
-        />
+        {/* Only show navigation if not super admin */}
+        {currentUser?.role !== 'super-admin' && (
+          <>
+            <SidebarItem
+              icon={<Home size={20} />}
+              label="Home"
+              isActive={currentView === 'home'}
+              onClick={() => onNavigate('home')}
+              currentUserRole={currentUser?.role}
+            />
+            <SidebarItem
+              icon={<Trophy size={20} />}
+              label="Competitions"
+              isActive={currentView === 'competition'}
+              onClick={() => onNavigate('competition')}
+              currentUserRole={currentUser?.role}
+            />
+            <SidebarItem
+              icon={<Target size={20} />}
+              label="Challenges"
+              isActive={currentView === 'challenge'}
+              onClick={() => onNavigate('challenge')}
+              currentUserRole={currentUser?.role}
+            />
+            <SidebarItem
+              icon={<BarChart3 size={20} />}
+              label="Leaderboard"
+              isActive={currentView === 'leaderboard'}
+              onClick={() => onNavigate('leaderboard')}
+              currentUserRole={currentUser?.role}
+            />
+            <SidebarItem
+              icon={<User size={20} />}
+              label="Profile"
+              isActive={currentView === 'profile'}
+              onClick={() => onNavigate('profile')}
+              currentUserRole={currentUser?.role}
+            />
+            <SidebarItem
+              icon={<Settings size={20} />}
+              label="Manage Players"
+              isActive={currentView === 'admin-users'}
+              onClick={() => onNavigate('admin-users')}
+              adminOnly={true}
+              currentUserRole={currentUser?.role}
+            />
+          </>
+        )}
+        
+        {/* Super admin only - Analytics */}
         <SidebarItem
           icon={<BarChart3 size={20} />}
-          label="Leaderboard"
-          isActive={currentView === 'leaderboard'}
-          onClick={() => onNavigate('leaderboard')}
-          currentUserRole={currentUser?.role}
-        />
-        <SidebarItem
-          icon={<User size={20} />}
-          label="Profile"
-          isActive={currentView === 'profile'}
-          onClick={() => onNavigate('profile')}
-          currentUserRole={currentUser?.role}
-        />
-        <SidebarItem
-          icon={<Settings size={20} />}
-          label="Manage Players"
-          isActive={currentView === 'admin-users'}
-          onClick={() => onNavigate('admin-users')}
-          adminOnly={true}
+          label="Analytics"
+          isActive={currentView === 'super-admin'}
+          onClick={() => onNavigate('super-admin')}
+          superAdminOnly={true}
           currentUserRole={currentUser?.role}
         />
       </nav>

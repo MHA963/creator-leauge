@@ -12,7 +12,7 @@ const App: React.FC = () => {
 
   // --- State Management ---
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [view, setView] = useState<'home' | 'competition' | 'challenge' | 'leaderboard' | 'profile' | 'admin-users'>('home');
+  const [view, setView] = useState<'home' | 'competition' | 'challenge' | 'leaderboard' | 'profile' | 'admin-users' | 'super-admin'>('home');
   const [selectedCompetitionId, setSelectedCompetitionId] = useState<string | null>(null);
   const [selectedChallengeId, setSelectedChallengeId] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -50,16 +50,60 @@ const App: React.FC = () => {
   const handleLogin = (username: string, pass: string) => {
     const user = users.find(u => u.username.toLowerCase() === username.toLowerCase());
     if (user) {
-      setCurrentUser(user);
-      setView('home');
+      // Update lastLogin
+      const updatedUser = {
+        ...user,
+        lastLogin: new Date().toISOString()
+      };
+      // Update in users list
+      setUsers(users.map(u => u.id === user.id ? updatedUser : u));
+      setCurrentUser(updatedUser);
+      // Route to appropriate view based on role
+      if (updatedUser.role === 'super-admin') {
+        setView('super-admin');
+      } else {
+        setView('home');
+      }
     } else {
-      alert('User not found! Try "3mmo" (Leader) or "ShadowBlade" (Player)');
+      alert('User not found!');
     }
+  };
+
+  // --- New Game Handler ---
+  const handleNewGame = (username: string, password: string, gameName: string) => {
+    // Create a unique game ID
+    const gameId = `game-${Date.now()}`;
+    
+    // Create fresh game with only the admin user
+    const adminUser: User = {
+      id: `user-${Date.now()}`,
+      username,
+      password,
+      role: 'leader',
+      avatar: `https://api.dicebear.com/7.x/adventurer/svg?seed=${username}&backgroundColor=b6e3f4`,
+      level: 1,
+      xp: 0,
+      createdAt: new Date().toISOString(),
+      lastLogin: new Date().toISOString(),
+      gameId,
+      gameName
+    };
+
+    // Reset all data - fresh game
+    setUsers([adminUser]);
+    setCompetitions([]);
+    setChallenges([]);
+    setSubmissions([]);
+    setRatings([]);
+    
+    // Login as the admin
+    setCurrentUser(adminUser);
+    setView('home');
   };
 
   // --- Render ---
   if (!currentUser) {
-    return <LoginView onLogin={handleLogin} error="" />;
+    return <LoginView onLogin={handleLogin} onNewGame={handleNewGame} error="" />;
   }
 
   return (

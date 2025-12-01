@@ -33,7 +33,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({ users, submiss
          {/* 2nd Place */}
          {leaderboardData[1] && (
              <div className="flex flex-col items-center w-1/3 transform transition-transform hover:scale-105 duration-300 group">
-                 <img src={leaderboardData[1].user.avatar} className="w-20 h-20 rounded-full border-4 border-slate-400 bg-slate-800 mb-4 shadow-lg group-hover:shadow-slate-400/50 transition-shadow" />
+                 <img title="2nd Place"src={leaderboardData[1].user.avatar} className="w-20 h-20 rounded-full border-4 border-slate-400 bg-slate-800 mb-4 shadow-lg group-hover:shadow-slate-400/50 transition-shadow" />
                  <div className="w-full bg-slate-800 h-32 rounded-t-2xl flex flex-col items-center justify-center border-t-4 border-slate-600 relative shadow-2xl group-hover:bg-slate-700 transition-colors">
                      <div className="text-4xl font-black text-slate-500/20 absolute bottom-2">2</div>
                      <div className="font-bold text-white">{leaderboardData[1].user.username}</div>
@@ -46,7 +46,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({ users, submiss
          {leaderboardData[0] && (
              <div className="flex flex-col items-center w-1/3 -mt-8 z-10 transform transition-transform hover:scale-110 duration-300 group">
                  <Crown className="text-yellow-400 w-12 h-12 mb-2 animate-bounce" />
-                 <img src={leaderboardData[0].user.avatar} className="w-24 h-24 rounded-full border-4 border-yellow-400 bg-yellow-900 mb-4 shadow-lg shadow-yellow-500/20 group-hover:shadow-yellow-400/50 transition-shadow" />
+                 <img title="1st Place"src={leaderboardData[0].user.avatar} className="w-24 h-24 rounded-full border-4 border-yellow-400 bg-yellow-900 mb-4 shadow-lg shadow-yellow-500/20 group-hover:shadow-yellow-400/50 transition-shadow" />
                  <div className="w-full bg-gradient-to-b from-yellow-500/20 to-slate-900 h-48 rounded-t-2xl flex flex-col items-center justify-center border-t-4 border-yellow-500 relative shadow-2xl shadow-yellow-500/10 group-hover:from-yellow-500/30 transition-colors">
                      <div className="text-6xl font-black text-yellow-500/10 absolute bottom-2">1</div>
                      <div className="font-bold text-xl text-white">{leaderboardData[0].user.username}</div>
@@ -58,7 +58,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({ users, submiss
          {/* 3rd Place */}
          {leaderboardData[2] && (
              <div className="flex flex-col items-center w-1/3 transform transition-transform hover:scale-105 duration-300 group">
-                 <img src={leaderboardData[2].user.avatar} className="w-20 h-20 rounded-full border-4 border-orange-700 bg-slate-800 mb-4 shadow-lg group-hover:shadow-orange-700/50 transition-shadow" />
+                 <img title="3rd Place" src={leaderboardData[2].user.avatar} className="w-20 h-20 rounded-full border-4 border-orange-700 bg-slate-800 mb-4 shadow-lg group-hover:shadow-orange-700/50 transition-shadow" />
                  <div className="w-full bg-slate-800 h-24 rounded-t-2xl flex flex-col items-center justify-center border-t-4 border-orange-800 relative shadow-2xl group-hover:bg-slate-700 transition-colors">
                      <div className="text-4xl font-black text-orange-900/50 absolute bottom-2">3</div>
                      <div className="font-bold text-white">{leaderboardData[2].user.username}</div>
@@ -80,7 +80,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({ users, submiss
 
                   <div className={`w-12 font-bold text-center transition-colors text-xl ${index < 3 ? 'text-yellow-500' : 'text-slate-500 group-hover:text-white'}`}>#{index + 1}</div>
                   <div className="flex items-center gap-4 flex-1 relative z-10">
-                      <img src={item.user.avatar} className="w-10 h-10 rounded-lg bg-slate-950 group-hover:ring-2 ring-indigo-500 transition-all" />
+                      <img title={item.user.username} src={item.user.avatar} className="w-10 h-10 rounded-lg bg-slate-950 group-hover:ring-2 ring-indigo-500 transition-all" />
                       <div>
                           <div className="font-bold text-white group-hover:text-indigo-400 transition-colors">{item.user.username}</div>
                           <div className="text-xs text-slate-500">{item.stats.submissionCount} Missions • {item.stats.avgRating} Avg</div>

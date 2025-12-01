@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Challenge, Submission, User, Rating } from '../types';
-import { Send, ExternalLink, Star, Link as LinkIcon, Check, Eye, Play } from 'lucide-react';
+import { Send, ExternalLink, Star, Link as LinkIcon, Check, Eye, Play, Target } from 'lucide-react';
 import { Card } from './ui/Card';
 
 interface ChallengePageProps {
@@ -74,6 +74,29 @@ export const ChallengePage: React.FC<ChallengePageProps> = ({
       {/* 2. Submission Area (Hidden for Admin) */}
       {!isAdmin && (
           <div className="max-w-2xl mx-auto space-y-6">
+            {/* Targets/Checkpoint Guide */}
+            {challenge.targets && challenge.targets.length > 0 && (
+                <Card className="border-2 border-amber-500/30 bg-amber-500/10">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-2">
+                            <Target className="w-5 h-5 text-amber-400" />
+                            <h3 className="font-bold text-amber-50 text-lg">Your Targets</h3>
+                        </div>
+                        <p className="text-amber-100/80 text-sm">Here's what we're looking for in your submission:</p>
+                        <div className="space-y-3">
+                            {challenge.targets.map((target, idx) => (
+                                <div key={idx} className="flex items-start gap-3 p-3 bg-amber-500/20 rounded-lg border border-amber-500/20">
+                                    <div className="flex items-center justify-center w-6 h-6 rounded-full bg-amber-500 text-amber-950 font-bold text-sm flex-shrink-0 mt-0.5">
+                                        {idx + 1}
+                                    </div>
+                                    <p className="text-amber-50 text-sm leading-relaxed">{target}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </Card>
+            )}
+
             {/* List Existing Submissions */}
             {mySubmissions.length > 0 && (
                 <div className="space-y-4">

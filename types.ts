@@ -1,5 +1,5 @@
 
-export type Role = 'leader' | 'player';
+export type Role = 'super-admin' | 'leader' | 'player';
 
 export interface User {
   id: string;
@@ -9,6 +9,10 @@ export interface User {
   role: Role;
   level: number;
   xp: number;
+  createdAt?: string;
+  lastLogin?: string;
+  gameId?: string; // Links user to their game/instance
+  gameName?: string; // Name of the game instance
 }
 
 export type CompetitionStatus = "active" | "upcoming" | "completed";
@@ -32,6 +36,7 @@ export interface Challenge {
   title: string;
   description: string;
   criteria: string[]; // Judging criteria
+  targets?: string[]; // Quick checkpoint guide (3 points)
   week_number: number; // Week 1, 2, 3, 4 inside the competition
   status: ChallengeStatus;
   rules: string[];
@@ -60,6 +65,17 @@ export interface Rating {
 
 // Mock Data
 export const MOCK_USERS: User[] = [
+  { 
+    id: 'super-admin',
+    username: 'superadmin',
+    password: 'admin',
+    role: 'super-admin',
+    avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=superadmin&backgroundColor=ffd700',
+    level: 100,
+    xp: 999999,
+    createdAt: '2025-01-01',
+    lastLogin: new Date().toISOString()
+  },
   { 
     id: '3mmo', 
     username: '3mmo', 
@@ -140,6 +156,7 @@ export const MOCK_CHALLENGES: Challenge[] = [
     title: 'The 10-Second Story',
     description: 'Tell a complete story (beginning, middle, end) in exactly 10 seconds.',
     criteria: ['Clear Narrative', 'Pacing', 'Creativity'],
+    targets: ['Establish character or setting in first 3 seconds', 'Build conflict or tension in the middle', 'Deliver a satisfying conclusion'],
     status: 'rating',
     rules: ['Must be exactly 10 seconds', 'No copyrighted music', 'Keep it PG'],
     max_submissions: 1,
@@ -152,6 +169,7 @@ export const MOCK_CHALLENGES: Challenge[] = [
     title: 'Sound Design Master',
     description: 'Create a video where the sound effects are the main character.',
     criteria: ['Audio Quality', 'Sync', 'Atmosphere'],
+    targets: ['Use 3+ distinct sound layers', 'Synchronize audio with visual cues perfectly', 'Create immersive atmosphere throughout'],
     status: 'active',
     rules: ['Original audio preferred', 'Visuals can be simple'],
     max_submissions: 3,
@@ -164,6 +182,7 @@ export const MOCK_CHALLENGES: Challenge[] = [
     title: 'Color Grade Audit',
     description: 'Take a dull clip and make it pop using only color grading.',
     criteria: ['Mood', 'Consistency', 'Technical Skill'],
+    targets: ['Transform colors without losing natural skin tones', 'Maintain consistent grade throughout the clip', 'Enhance mood and storytelling with color'],
     status: 'locked',
     rules: ['Before/After required'],
     max_submissions: 1,

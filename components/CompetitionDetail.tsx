@@ -33,6 +33,7 @@ export const CompetitionDetail: React.FC<CompetitionDetailProps> = ({
       week_number: (challenges.length || 0) + 1,
       status: 'active',
       criteria: ['Creativity', 'Technique', 'Impact'],
+      targets: ['', '', ''],
       rules: [''],
       max_submissions: 1,
       background_image: ''
@@ -46,6 +47,7 @@ export const CompetitionDetail: React.FC<CompetitionDetailProps> = ({
         week_number: (challenges.length || 0) + 1,
         status: 'active',
         criteria: ['Creativity', 'Technique', 'Impact'],
+        targets: ['', '', ''],
         rules: [''],
         max_submissions: 1,
         background_image: ''
@@ -193,10 +195,29 @@ export const CompetitionDetail: React.FC<CompetitionDetailProps> = ({
                                 value={formData.description} onChange={e => setFormData({...formData, description: e.target.value})}
                             />
                         </div>
+                        
                         <div>
-                            <label className="text-xs text-slate-500 mb-1 block flex items-center gap-2">
-                                <ImageIcon className="w-3 h-3" /> Background Image URL (Optional)
-                            </label>
+                            <label className="text-xs text-slate-500 mb-2 block">Targets (3 Checkpoint Points)</label>
+                            <div className="space-y-2">
+                                {(formData.targets || ['', '', '']).map((target, idx) => (
+                                    <input 
+                                        key={idx}
+                                        type="text" 
+                                        placeholder={`Target ${idx + 1} - What should creators focus on?`}
+                                        className="w-full bg-slate-900 border border-slate-700 rounded p-2 text-white focus:border-indigo-500 outline-none text-sm"
+                                        value={target || ''} 
+                                        onChange={e => {
+                                            const newTargets = [...(formData.targets || ['', '', ''])];
+                                            newTargets[idx] = e.target.value;
+                                            setFormData({...formData, targets: newTargets});
+                                        }}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label className="text-xs text-slate-500 mb-1 block">Background Image URL (Optional)</label>
                             <input 
                                 type="text" 
                                 placeholder="https://..."

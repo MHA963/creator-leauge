@@ -35,6 +35,51 @@ The platform supports two types of users:
 - **Level** = Milestone achievement (increases with consistent performance)
 - **XP** = Total experience gained from submissions and ratings
 
+## ✨ Key Features
+
+### Challenge Targets/Checkpoint Guides
+Each challenge displays 3 key checkpoint points that guide creators on what to focus on:
+
+**For Players:**
+- See targets in a golden card BEFORE submitting your entry
+- 3 numbered checkpoint points with clear guidance
+- Example: "Establish character in first 3 seconds", "Build conflict in the middle", "Deliver satisfying conclusion"
+- Helps creators understand exact requirements and improve submission quality
+
+**For Leaders:**
+- Add up to 3 target guides when creating or editing challenges
+- Each target is a single line of guidance
+- Targets are optional and won't display if not set
+- Customize targets per challenge to match specific requirements
+
+**Implementation:**
+- Targets are stored with challenge data (optional field)
+- Displayed prominently in amber/golden card design
+- Numbered display (1, 2, 3) with supporting text
+- Only shown if targets are populated
+
+### Multiple Game Instances
+Admins can now create and manage multiple independent game instances:
+
+**For New Game Creators:**
+- Click "New Game" on login screen
+- Enter admin username, password, and **game name**
+- Creates fresh game with admin-only account
+- Game receives unique ID automatically
+- Confirmation modal with setup guides before creation
+
+**Game Isolation:**
+- Each game instance is completely independent
+- Separate players, competitions, challenges, and submissions
+- Each game has its own leaderboard and ratings
+- Admins manage only their own game instance
+
+**Use Cases:**
+- Host multiple Creator League seasons separately
+- Run competitions for different content types
+- Manage contests with different regional groups
+- Test new features in isolated instances
+
 ## 👥 Roles & Actions
 
 ### Player Role
@@ -51,6 +96,7 @@ The platform supports two types of users:
 | Action | Description |
 |--------|-------------|
 | Browse | Explore competitions and challenges |
+| View Targets | See checkpoint guides before submitting |
 | Submit | Upload content link for a challenge |
 | Rate | Give 1-10 score to other submissions |
 | View Stats | Check personal score and XP |
@@ -61,15 +107,19 @@ The platform supports two types of users:
 - Create new competitions
 - Edit/delete competitions and challenges
 - Create new challenges within competitions
+- Set challenge targets/checkpoint guides
 - Manage player accounts (create, edit, delete)
 - View all user data and submissions
 - Moderation tools
+- Create new game instances with custom names
 
 **Actions:**
 | Action | Description |
 |--------|-------------|
+| Create Game | Start new game instance with custom name |
 | Create Competition | Set up new themed competition |
 | Create Challenge | Add challenge to competition |
+| Set Targets | Define 3 checkpoint guides for challenge |
 | Edit Content | Modify competition/challenge details |
 | Manage Players | Create/delete/edit user accounts |
 | Monitor | View all submissions and ratings |
@@ -287,8 +337,9 @@ npm run build
 ```
 
 ### Login Credentials
-- **Leader Account**: Username: `admin` | Password: `123`
-- **Player Account**: Username: `ShadowBlade` | Password: `123`
+- **Existing Game - Leader Account**: Username: `3mmo` | Password: `123`
+- **Existing Game - Player Account**: Username: `ShadowBlade` | Password: `123`
+- **Create New Game**: Click "New Game" button, enter username, password, and game name
 
 ## 📱 Responsive Design
 
